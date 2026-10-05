@@ -1,0 +1,26 @@
+---
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import Footer from '../components/Footer.astro';
+import Gallery from '../components/Gallery.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title={`${site.name} | Montaj, reparații și renovări acoperișuri`} description={`Montaj, reparații și renovări de acoperișuri, lucrări exterioare și finisaje interioare în ${site.area}.`}>
+  <Header />
+  <main class="flex-1 pb-14 sm:pb-0">
+    <Hero />
+    <About />
+    <Services />
+    <Gallery />
+    <Testimonials />
+    <Contact />
+  </main>
+  <Footer />
+  <FloatingActions />
+</Layout>

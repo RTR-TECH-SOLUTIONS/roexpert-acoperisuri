@@ -1,0 +1,53 @@
+---
+import { testimonials, videos } from '../data/site';
+---
+<section id="testimoniale" class="section bg-surface">
+  <div class="site-container reveal mb-12">
+    <p class="eyebrow mb-3">Testimoniale</p>
+    <h2 class="font-heading font-semibold">Ce spun clienții <span class="text-accent">noștri</span></h2>
+  </div>
+
+  {videos.length > 0 && (
+    <div class="site-container mb-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {videos.map((v) => (
+        <div data-video class="relative overflow-hidden rounded-2xl border border-border bg-surface">
+          <video src={v.src} poster={v.poster} preload="none" playsinline class="h-[260px] w-full object-cover sm:h-[360px] md:h-[420px]"></video>
+          <button type="button" aria-label="Pornește videoclipul" class="absolute inset-0 flex items-center justify-center bg-black/35 transition-colors hover:bg-black/45">
+            <span class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-white shadow-lg">
+              <svg viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-7 w-7" aria-hidden="true"><path d="M8 5v14l11-7L8 5Z" /></svg>
+            </span>
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <div class="marquee" style={`--marquee-d: ${testimonials.length * 9}s`}>
+    <ul class="marquee-track items-stretch">
+      {[0, 1].map((copy) => testimonials.map((t) => (
+        <li aria-hidden={copy === 1 ? 'true' : undefined} class="mr-4 w-[320px] shrink-0 sm:w-[380px]">
+          <figure class="flex h-full min-h-[340px] flex-col justify-center rounded-2xl border border-border bg-bg px-6 py-8 text-center sm:px-10">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="mx-auto mb-5 h-6 w-6 text-accent" aria-hidden="true"><path d="M4 17v-5.500C4 8 6 6 9.500 6v2.500c-1.500 0-2.500 1-2.500 2.500h3V17H4Zm10 0v-5.500C14 8 16 6 19.500 6v2.500c-1.500 0-2.500 1-2.500 2.500h3V17h-6Z" /></svg>
+            <blockquote class="mb-6 leading-relaxed sm:text-lg">„{t.quote}”</blockquote>
+            <figcaption>
+              <span class="block font-heading font-semibold">{t.name}</span>
+              <span class="mt-1 block text-sm text-muted">{t.role}</span>
+            </figcaption>
+          </figure>
+        </li>
+      )))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-video]').forEach((box) => {
+    const video = box.querySelector('video')!;
+    const button = box.querySelector('button')!;
+    button.addEventListener('click', () => {
+      button.hidden = true;
+      video.controls = true;
+      video.play();
+    });
+  });
+</script>

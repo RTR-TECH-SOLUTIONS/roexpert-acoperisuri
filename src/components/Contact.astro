@@ -1,0 +1,133 @@
+---
+import { categories, site } from '../data/site';
+import Icon from './Icon.astro';
+const points = ['Ofertă completă, cu toate detaliile', 'Transparență totală — știi exact ce plătești', 'Nicio presiune, nicio obligație'];
+---
+<section id="contact" class="section bg-bg">
+  <div class="site-container grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal">
+      <p class="eyebrow flex items-center gap-3"><span class="h-px w-8 bg-accent"></span>Contact</p>
+      <h2 class="mt-3 font-heading text-[clamp(2.250rem,4.200vw,3.250rem)]! font-semibold">Proiectul tău,<br /><span class="text-accent">în mâini bune.</span></h2>
+      <p class="mt-6 max-w-lg leading-relaxed text-muted">Spune-ne despre proiectul tău și îți răspundem cu o ofertă completă, gândită special pentru ce ai nevoie. Fie că e vorba de un acoperiș nou, o fațadă sau o amenajare interioară, abordăm fiecare lucrare la fel: serios, transparent și la obiect.</p>
+      <ul class="mt-8 space-y-4">
+        {points.map((p) => (
+          <li class="flex items-center gap-3"><span class="h-2 w-2 shrink-0 rounded-full bg-accent"></span>{p}</li>
+        ))}
+      </ul>
+    </div>
+
+    <form data-offer-form novalidate class="reveal rounded-2xl border border-border bg-surface p-[clamp(1.250rem,3vw,2rem)]">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block text-sm font-medium">Nume complet <span class="text-accent">*</span>
+          <input name="nume" required autocomplete="name" placeholder="Numele tău" class="field mt-2" />
+        </label>
+        <label class="block text-sm font-medium">Email <span class="text-accent">*</span>
+          <input name="email" type="email" required autocomplete="email" placeholder="adresa@exemplu.ro" class="field mt-2" />
+        </label>
+        <label class="block text-sm font-medium">Telefon <span class="text-accent">*</span>
+          <input name="telefon" type="tel" required autocomplete="tel" pattern="[0-9+ ]{10,15}" placeholder="07XX XXX XXX" class="field mt-2" />
+        </label>
+        <label class="block text-sm font-medium">Localitate
+          <input name="localitate" autocomplete="address-level2" placeholder="Orașul / zona ta" class="field mt-2" />
+        </label>
+      </div>
+
+      <fieldset class="mt-5">
+        <legend class="text-sm font-medium">Serviciu(i) dorit(e)</legend>
+        <div data-rows class="mt-2 space-y-3">
+          <div data-row class="grid grid-cols-[1fr_1fr_auto] items-end gap-3 max-sm:grid-cols-1">
+            <label class="block text-xs text-muted">Categorie
+              <select data-cat-select class="field mt-1">
+                {categories.map((c) => <option value={c.id}>{c.title}</option>)}
+              </select>
+            </label>
+            <label class="block text-xs text-muted">Serviciu
+              <select data-service-select class="field mt-1"></select>
+            </label>
+            <button type="button" data-remove-row hidden aria-label="Elimină serviciul" class="flex h-[2.900rem] w-[2.900rem] items-center justify-center rounded-lg border border-border text-muted hover:text-white"><Icon name="close" class="h-4 w-4" /></button>
+          </div>
+        </div>
+        <button type="button" data-add-row class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-white"><Icon name="plus" class="h-4 w-4" /> Adaugă serviciu</button>
+      </fieldset>
+
+      <label class="mt-5 block text-sm font-medium">Mesaj / detalii
+        <textarea name="mesaj" rows="4" placeholder="Descrie pe scurt proiectul tău sau nevoile tale..." class="field mt-2 resize-y"></textarea>
+      </label>
+
+      <label class="mt-5 flex items-start gap-3 text-sm text-muted">
+        <input name="acord" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 accent-(--color-accent)" />
+        <span>Sunt de acord cu prelucrarea datelor pentru a fi contactat.</span>
+      </label>
+
+      <p data-form-error role="alert" hidden class="mt-4 rounded-lg border border-accent/50 bg-accent/10 px-3 py-2 text-sm"></p>
+
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <button type="submit" class="btn btn-primary text-sm tracking-wide uppercase"><Icon name="send" class="h-4 w-4" /> Solicită ofertă</button>
+        <a href="#servicii" class="btn btn-outline h-11! px-4! text-sm"><Icon name="arrow" class="h-4 w-4 rotate-180" /> Vezi serviciile</a>
+      </div>
+      <p data-form-ok role="status" hidden class="mt-4 text-sm text-muted">Cererea s-a deschis în WhatsApp. Dacă nu s-a deschis, sună-ne la <a href={`tel:${site.phoneHref}`} class="text-text underline">{site.phone}</a>.</p>
+    </form>
+  </div>
+</section>
+
+<script define:vars={{ categories, whatsapp: site.whatsapp }}>
+  const form = document.querySelector('[data-offer-form]');
+  const rows = form.querySelector('[data-rows]');
+  const template = rows.querySelector('[data-row]').cloneNode(true);
+  const error = form.querySelector('[data-form-error]');
+
+  const fillServices = (row, picked) => {
+    const cat = categories.find((c) => c.id === row.querySelector('[data-cat-select]').value);
+    const select = row.querySelector('[data-service-select]');
+    select.replaceChildren(new Option('Alege serviciul', ''), ...cat.services.map((s) => new Option(s, s)));
+    if (picked) select.value = picked;
+  };
+  const wireRow = (row) => {
+    row.querySelector('[data-cat-select]').addEventListener('change', () => fillServices(row));
+    row.querySelector('[data-remove-row]').addEventListener('click', () => row.remove());
+    fillServices(row);
+  };
+  wireRow(rows.firstElementChild);
+
+  form.querySelector('[data-add-row]').addEventListener('click', () => {
+    const row = template.cloneNode(true);
+    row.querySelector('[data-remove-row]').hidden = false;
+    rows.append(row);
+    wireRow(row);
+  });
+
+  // Click pe un serviciu din lista de servicii: îl preselectează în formular.
+  document.querySelectorAll('[data-pick]').forEach((link) =>
+    link.addEventListener('click', () => {
+      const row = rows.firstElementChild;
+      row.querySelector('[data-cat-select]').value = link.dataset.pickCat;
+      fillServices(row, link.dataset.pick);
+    }),
+  );
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const invalid = [...form.elements].find((el) => el.willValidate && !el.checkValidity());
+    if (invalid) {
+      error.textContent = invalid.name === 'acord' ? 'Bifează acordul ca să te putem contacta.' : 'Completează numele, e-mailul și un număr de telefon valid.';
+      error.hidden = false;
+      invalid.focus();
+      return;
+    }
+    error.hidden = true;
+    const services = [...rows.querySelectorAll('[data-service-select]')].map((s) => s.value).filter(Boolean);
+    const lines = [
+      'Bună ziua, doresc o ofertă.',
+      `Nume: ${data.get('nume')}`,
+      `Telefon: ${data.get('telefon')}`,
+      data.get('email') && `Email: ${data.get('email')}`,
+      data.get('localitate') && `Localitate: ${data.get('localitate')}`,
+      services.length && `Servicii: ${services.join(', ')}`,
+      data.get('mesaj') && `Detalii: ${data.get('mesaj')}`,
+    ].filter(Boolean);
+    // TODO(real): trimite cererea și pe e-mail (Resend) ca să rămână o evidență.
+    window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+    form.querySelector('[data-form-ok]').hidden = false;
+  });
+</script>

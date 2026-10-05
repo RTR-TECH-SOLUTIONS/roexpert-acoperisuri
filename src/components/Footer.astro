@@ -1,0 +1,37 @@
+---
+import { categories, nav, site } from '../data/site';
+import Logo from './Logo.astro';
+const links = [...nav.slice(0, 2), { label: 'Înainte/După', href: '#despre-noi' }, ...nav.slice(2)];
+---
+<footer class="border-t border-border bg-surface">
+  <div class="site-container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.600fr_1fr_1fr_1fr]">
+    <div>
+      <Logo class="h-10" />
+      <p class="mt-6 text-sm text-muted">Calitate · Garanție · Profesionalism</p>
+      <p class="mt-1 text-sm text-muted">Servicii de acoperișuri în {site.area}.</p>
+    </div>
+    <div>
+      <h3 class="font-heading text-sm font-semibold tracking-wider uppercase">Navigare</h3>
+      <ul class="mt-5 space-y-3 text-sm text-muted">
+        {links.map((l) => <li><a href={l.href} class="hover:text-text">{l.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3 class="font-heading text-sm font-semibold tracking-wider uppercase">Servicii</h3>
+      <ul class="mt-5 space-y-3 text-sm text-muted">
+        {categories.map((c) => <li><a href="#servicii" class="hover:text-text">{c.title}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h3 class="font-heading text-sm font-semibold tracking-wider uppercase">Contact</h3>
+      <ul class="mt-5 space-y-3 text-sm text-muted">
+        <li><a href={`tel:${site.phoneHref}`} class="hover:text-text">{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`} class="hover:text-text">{site.email}</a></li>
+        <li>Acoperire: {site.area}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-border">
+    <p class="site-container py-6 text-xs text-muted">© {new Date().getFullYear()} {site.name}. Toate drepturile rezervate.</p>
+  </div>
+</footer>

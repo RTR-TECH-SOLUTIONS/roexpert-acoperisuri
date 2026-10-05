@@ -1,0 +1,55 @@
+---
+import { beforeAfter, reasons, site } from '../data/site';
+import Icon from './Icon.astro';
+---
+<section id="despre-noi" class="section bg-bg">
+  <div class="site-container grid gap-14 lg:grid-cols-2 lg:gap-0">
+    <div class="reveal lg:pr-14">
+      <p class="eyebrow">Despre noi</p>
+      <h2 class="mt-3 font-heading font-semibold">De ce să alegi {site.name}?</h2>
+      <div class="mt-8 space-y-6 text-justify leading-relaxed text-muted">
+        <p>Casa ta nu este doar o clădire. Este locul în care trăiești, investești și te simți în siguranță — și merită oameni care o tratează ca atare.</p>
+        <p>La {site.name} acoperim tot: montaj învelitori, jgheaburi, fațade, garduri, amenajări exterioare și finisaje interioare. O singură echipă, un singur standard de calitate, oriunde în România.</p>
+        <p>De la prima ofertă până la finalizare, lucrăm îngrijit, la termen și plecăm doar când totul arată exact cum trebuie.</p>
+        <p>Ne poți urmări pe <a href={site.facebook} class="text-text underline decoration-accent underline-offset-4 hover:text-white">Facebook</a> și <a href={site.tiktok} class="text-text underline decoration-accent underline-offset-4 hover:text-white">TikTok</a> — acolo documentăm lucrările noastre, de la șantier până la finalizare.</p>
+      </div>
+      <ul class="mt-12 grid grid-cols-2 gap-x-6 gap-y-10">
+        {reasons.map((r) => (
+          <li class="text-center">
+            <span class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white"><Icon name={r.icon as any} /></span>
+            <h3 class="mt-4 font-heading text-lg font-semibold">{r.title}</h3>
+            <p class="mx-auto mt-2 max-w-[15rem] text-sm leading-relaxed text-muted">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="reveal lg:border-l-2 lg:border-accent lg:pl-14">
+      <p class="eyebrow">Transformări reale</p>
+      <h2 class="mt-3 font-heading font-semibold">Înainte &amp; După</h2>
+      <div class="mt-8 space-y-4">
+        {beforeAfter.map((pair, i) => (
+          <div data-compare class="relative aspect-[2/1] overflow-hidden rounded-xl border border-border select-none" style="--pos: 50%">
+            <img src={pair.after} alt="Acoperiș după renovare" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+            <img src={pair.before} alt="Acoperiș înainte de renovare" loading="lazy" class="absolute inset-0 h-full w-full object-cover [clip-path:inset(0_calc(100%-var(--pos))_0_0)]" />
+            <span class="absolute bottom-3 left-3 rounded bg-black/65 px-2 py-1 text-[0.65rem] font-semibold tracking-widest text-white">ÎNAINTE</span>
+            <span class="absolute right-3 bottom-3 rounded bg-black/65 px-2 py-1 text-[0.65rem] font-semibold tracking-widest text-white">DUPĂ</span>
+            <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-(--pos) w-0.5 -translate-x-1/2 bg-white/90">
+              <span class="absolute top-1/2 left-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-bg shadow-lg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="m9 7-5 5 5 5m6-10 5 5-5 5" /></svg>
+              </span>
+            </span>
+            <input type="range" min="0" max="100" value="50" aria-label={`Compară înainte și după, lucrarea ${i + 1}`} class="absolute inset-0 h-full w-full cursor-ew-resize touch-pan-y opacity-0" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((box) => {
+    const range = box.querySelector('input')!;
+    range.addEventListener('input', () => box.style.setProperty('--pos', `${range.value}%`));
+  });
+</script>

@@ -1,0 +1,6 @@
+---
+import { site, u } from '../data/site';
+interface Props { class?: string }
+const { class: cls = 'h-8 lg:h-10' } = Astro.props;
+---
+<img src={u('/images/logo.webp')} alt={site.name} width="720" height="112" class:list={['w-auto', cls]} />

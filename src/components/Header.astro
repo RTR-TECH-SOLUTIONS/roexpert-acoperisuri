@@ -1,0 +1,61 @@
+---
+import { nav, site } from '../data/site';
+import Logo from './Logo.astro';
+import Social from './Social.astro';
+---
+<header data-header class="group fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 data-[solid]:border-border data-[solid]:bg-bg/85 data-[solid]:backdrop-blur-md">
+  <nav class="site-container relative flex items-center justify-between py-4" aria-label="Navigare principală">
+    <a href="#hero" aria-label={`${site.name}, acasă`} class="rounded-sm"><Logo /></a>
+
+    <ul class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex">
+      {nav.map((item) => (
+        <li><a href={item.href} class="text-sm text-muted transition-colors hover:text-text">{item.label}</a></li>
+      ))}
+    </ul>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <Social />
+      <a href={`tel:${site.phoneHref}`} class="text-sm font-medium text-text hover:text-white">{site.phone}</a>
+      <a href="#contact" class="btn btn-primary h-10! px-4! text-sm">Solicită ofertă</a>
+    </div>
+
+    <button type="button" data-menu-toggle aria-expanded="false" aria-controls="meniu-mobil" aria-label="Deschide meniul" class="flex h-11 w-11 items-center justify-center rounded-lg lg:hidden">
+      <span class="flex w-6 flex-col gap-[5px]" aria-hidden="true">
+        <span class="h-0.5 w-full bg-text transition-transform duration-200 group-data-[open]:translate-y-[7px] group-data-[open]:rotate-45"></span>
+        <span class="h-0.5 w-full bg-text transition-opacity duration-200 group-data-[open]:opacity-0"></span>
+        <span class="h-0.5 w-full bg-text transition-transform duration-200 group-data-[open]:-translate-y-[7px] group-data-[open]:-rotate-45"></span>
+      </span>
+    </button>
+  </nav>
+
+  <div id="meniu-mobil" class="hidden border-t border-border bg-bg group-data-[open]:block lg:hidden!">
+    <ul class="site-container flex flex-col py-3">
+      {nav.map((item) => (
+        <li><a href={item.href} data-menu-link class="block border-b border-border py-3.5 font-heading text-lg">{item.label}</a></li>
+      ))}
+    </ul>
+    <div class="site-container flex items-center justify-between pb-5">
+      <a href={`tel:${site.phoneHref}`} class="font-medium">{site.phone}</a>
+      <Social />
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+
+  const setOpen = (open: boolean) => {
+    header.toggleAttribute('data-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Închide meniul' : 'Deschide meniul');
+    syncSolid();
+  };
+  const syncSolid = () => header.toggleAttribute('data-solid', window.scrollY > 24 || header.hasAttribute('data-open'));
+
+  toggle.addEventListener('click', () => setOpen(!header.hasAttribute('data-open')));
+  header.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  window.addEventListener('scroll', syncSolid, { passive: true });
+  syncSolid();
+</script>
