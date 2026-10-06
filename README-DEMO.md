@@ -9,7 +9,7 @@ Astro 7 + Tailwind 4, o singură pagină, output static (merge pe Hostinger shar
 - Tot conținutul stă în `src/data/site.ts`: date de contact, servicii, galerie, testimoniale, clipuri.
 - Pozele, perechile înainte/după, clipurile și textele sunt preluate de pe expert-acoperisuri.ro, pe baza confirmării că e aceeași firmă.
 - Logo: `public/images/logo.webp`, decupat din PNG-ul primit (fundal negru scos). De cerut varianta vectorială.
-- E-mailul și rețelele sociale sunt cele de pe site-ul vechi (`office@expert-acoperisuri.ro`). De confirmat dacă se schimbă odată cu numele.
+- E-mailul este cel de pe site-ul vechi (`office@expert-acoperisuri.ro`). De confirmat dacă se schimbă odată cu numele. Rețelele sociale au fost scoase la cererea clientului.
 
 ## Ce e mock (`TODO(real)`)
 - Formularul deschide WhatsApp cu mesajul precompletat. La proiectul real: trimitere și pe e-mail (Resend).

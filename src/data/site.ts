@@ -10,8 +10,6 @@ export const site = {
   whatsapp: '40735615254',
   email: 'office@expert-acoperisuri.ro',
   area: 'toată România',
-  facebook: 'https://www.facebook.com/profile.php?id=61586438465528',
-  tiktok: 'https://www.tiktok.com/@expertacoperisuri01',
 };
 
 export const nav = [
