@@ -5,9 +5,9 @@ export const u = (path: string) => `${base}${path}`;
 
 export const site = {
   name: 'RoExpert Acoperișuri',
-  phone: '0730 478 887',
-  phoneHref: '+40730478887',
-  whatsapp: '40730478887',
+  phone: '0735 615 254',
+  phoneHref: '+40735615254',
+  whatsapp: '40735615254',
   email: 'office@expert-acoperisuri.ro',
   area: 'toată România',
   facebook: 'https://www.facebook.com/profile.php?id=61586438465528',
