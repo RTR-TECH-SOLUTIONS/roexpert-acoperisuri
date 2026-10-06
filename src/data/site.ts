@@ -8,7 +8,7 @@ export const site = {
   phone: '0735 615 254',
   phoneHref: '+40735615254',
   whatsapp: '40735615254',
-  email: 'office@expert-acoperisuri.ro',
+  email: 'roexperttt@gmail.com',
   area: 'toată România',
 };
 
