@@ -9,6 +9,7 @@ import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { site } from '../data/site';
+import Partners from '../components/Partners.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout title={`${site.name} | Montaj, reparații și renovări acoperișuri`} description={`Montaj, reparații și renovări de acoperișuri, lucrări exterioare și finisaje interioare în ${site.area}.`}>
@@ -18,6 +19,7 @@ import Layout from '../layouts/Layout.astro';
     <About />
     <Services />
     <Gallery />
+    <Partners />
     <Testimonials />
     <Contact />
   </main>

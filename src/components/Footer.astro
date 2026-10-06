@@ -1,5 +1,5 @@
 ---
-import { categories, nav, site } from '../data/site';
+import { categories, nav, site, u } from '../data/site';
 import Logo from './Logo.astro';
 const links = [...nav.slice(0, 2), { label: 'Înainte/După', href: '#despre-noi' }, ...nav.slice(2)];
 ---
@@ -31,7 +31,17 @@ const links = [...nav.slice(0, 2), { label: 'Înainte/După', href: '#despre-noi
       </ul>
     </div>
   </div>
-  <div class="border-t border-border">
-    <p class="site-container py-6 text-xs text-muted">© {new Date().getFullYear()} {site.name}. Toate drepturile rezervate.</p>
+  <div class="border-t border-border pb-14 sm:pb-0">
+    <div class="site-container flex flex-col items-start gap-5 py-6 lg:flex-row lg:items-center lg:gap-10">
+      <p class="text-xs text-muted">© {new Date().getFullYear()} {site.name}. Toate drepturile rezervate.</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener noreferrer">
+          <img src={u('/images/anpc-sal.png')} alt="ANPC: Soluționarea alternativă a litigiilor" width="201" height="50" loading="lazy" class="h-10 w-auto" />
+        </a>
+        <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">
+          <img src={u('/images/anpc-sol.png')} alt="Soluționarea online a litigiilor" width="250" height="62" loading="lazy" class="h-10 w-auto" />
+        </a>
+      </div>
+    </div>
   </div>
 </footer>

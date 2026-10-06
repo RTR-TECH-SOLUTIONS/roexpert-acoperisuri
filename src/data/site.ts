@@ -171,6 +171,11 @@ export const gallery = [
   { src: "/images/galerie/vopsire-exterioara-02.webp", label: "Vopsire exterioară" },
 ].map((img) => ({ ...img, src: u(img.src) }));
 
+export const partners = ['Bilka', 'Tondach', 'Blachotrapez', 'Wetterbest', 'Lindab'].map((name) => ({
+  name,
+  logo: u(`/images/parteneri/${name.toLowerCase()}.svg`),
+}));
+
 export const videos = [1, 2].map((n) => ({ src: u(`/videos/testimonial-0${n}.mp4`), poster: u(`/videos/testimonial-0${n}.jpg`) }));
 
 export const testimonials = [

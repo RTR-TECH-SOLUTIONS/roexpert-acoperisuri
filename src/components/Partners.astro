@@ -1,0 +1,19 @@
+---
+import { partners } from '../data/site';
+---
+<section id="colaborari" class="bg-bg pb-(--section-y)">
+  <div class="site-container reveal mb-10">
+    <p class="eyebrow">Colaborări</p>
+    <h2 class="mt-3 font-heading font-semibold">Lucrăm cu materiale de la</h2>
+  </div>
+
+  <div class="marquee" style="--marquee-d: 40s">
+    <ul class="marquee-track">
+      {[0, 1, 2, 3].map((copy) => partners.map((p) => (
+        <li aria-hidden={copy > 0 ? 'true' : undefined} class="mr-4 flex h-24 w-56 shrink-0 items-center justify-center rounded-xl bg-white px-8">
+          <img src={p.logo} alt={p.name} loading="lazy" class="max-h-11 w-full object-contain" />
+        </li>
+      )))}
+    </ul>
+  </div>
+</section>
