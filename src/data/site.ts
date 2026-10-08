@@ -13,11 +13,11 @@ export const site = {
 };
 
 export const nav = [
-  { label: 'Acasă', href: '#hero' },
-  { label: 'Servicii', href: '#servicii' },
-  { label: 'Portofoliu', href: '#portofoliu' },
-  { label: 'Testimoniale', href: '#testimoniale' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Acasă', href: u('/') },
+  { label: 'Servicii', href: u('/servicii/') },
+  { label: 'Portofoliu', href: u('/portofoliu/') },
+  { label: 'Testimoniale', href: u('/testimoniale/') },
+  { label: 'Contact', href: u('/contact/') },
 ];
 
 export const categories = [

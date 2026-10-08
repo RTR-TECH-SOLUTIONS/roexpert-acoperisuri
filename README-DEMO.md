@@ -1,6 +1,6 @@
 # RoExpert Acoperișuri (replică după expert-acoperisuri.ro)
 
-Astro 7 + Tailwind 4, o singură pagină, output static (merge pe Hostinger shared).
+Astro 7 + Tailwind 4, cinci pagini (Acasă, Servicii, Portofoliu, Testimoniale, Contact), output static (merge pe Hostinger shared).
 
     npm run dev      # http://localhost:4321
     npm run build    # dist/

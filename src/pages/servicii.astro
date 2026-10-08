@@ -1,0 +1,8 @@
+---
+import Services from '../components/Services.astro';
+import { site } from '../data/site';
+import Page from '../layouts/Page.astro';
+---
+<Page inner title="Servicii" description={`Servicii de acoperișuri, lucrări exterioare și finisaje interioare, în ${site.area}.`}>
+  <Services expanded />
+</Page>

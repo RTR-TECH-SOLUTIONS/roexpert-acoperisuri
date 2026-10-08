@@ -1,0 +1,8 @@
+---
+import Testimonials from '../components/Testimonials.astro';
+import { site } from '../data/site';
+import Page from '../layouts/Page.astro';
+---
+<Page inner title="Testimoniale" description={`Ce spun clienții despre ${site.name}.`}>
+  <Testimonials />
+</Page>

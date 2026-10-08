@@ -1,20 +1,23 @@
 ---
-import { nav, site } from '../data/site';
+import { nav, site, u } from '../data/site';
+interface Props { solid?: boolean }
+const { solid = false } = Astro.props;
+const here = Astro.url.pathname.replace(/\/?$/, '/');
 import Logo from './Logo.astro';
 ---
-<header data-header class="group fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 data-[solid]:border-border data-[solid]:bg-bg/85 data-[solid]:backdrop-blur-md">
+<header data-header data-always-solid={solid ? '' : undefined} class="group fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300 data-[solid]:border-border data-[solid]:bg-bg/85 data-[solid]:backdrop-blur-md">
   <nav class="site-container relative flex items-center justify-between py-4" aria-label="Navigare principală">
-    <a href="#hero" aria-label={`${site.name}, acasă`} class="rounded-sm"><Logo /></a>
+    <a href={u('/')} aria-label={`${site.name}, acasă`} class="rounded-sm"><Logo /></a>
 
     <ul class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-6 lg:flex">
       {nav.map((item) => (
-        <li><a href={item.href} class="text-sm text-muted transition-colors hover:text-text">{item.label}</a></li>
+        <li><a href={item.href} aria-current={item.href === here ? 'page' : undefined} class="text-sm text-muted transition-colors hover:text-text aria-[current]:text-text">{item.label}</a></li>
       ))}
     </ul>
 
     <div class="hidden items-center gap-3 lg:flex">
       <a href={`tel:${site.phoneHref}`} class="text-sm font-medium text-text hover:text-white">{site.phone}</a>
-      <a href="#contact" class="btn btn-primary h-10! px-4! text-sm">Solicită ofertă</a>
+      <a href={u('/contact/')} class="btn btn-primary h-10! px-4! text-sm">Solicită ofertă</a>
     </div>
 
     <button type="button" data-menu-toggle aria-expanded="false" aria-controls="meniu-mobil" aria-label="Deschide meniul" class="flex h-11 w-11 items-center justify-center rounded-lg lg:hidden">
@@ -29,7 +32,7 @@ import Logo from './Logo.astro';
   <div id="meniu-mobil" class="hidden border-t border-border bg-bg group-data-[open]:block lg:hidden!">
     <ul class="site-container flex flex-col py-3">
       {nav.map((item) => (
-        <li><a href={item.href} data-menu-link class="block border-b border-border py-3.5 font-heading text-lg">{item.label}</a></li>
+        <li><a href={item.href} data-menu-link aria-current={item.href === here ? 'page' : undefined} class="block border-b border-border py-3.5 font-heading text-lg aria-[current]:text-accent-bright">{item.label}</a></li>
       ))}
     </ul>
     <div class="site-container pb-5">
@@ -48,7 +51,7 @@ import Logo from './Logo.astro';
     toggle.setAttribute('aria-label', open ? 'Închide meniul' : 'Deschide meniul');
     syncSolid();
   };
-  const syncSolid = () => header.toggleAttribute('data-solid', window.scrollY > 24 || header.hasAttribute('data-open'));
+  const syncSolid = () => header.toggleAttribute('data-solid', window.scrollY > 24 || header.hasAttribute('data-open') || header.hasAttribute('data-always-solid'));
 
   toggle.addEventListener('click', () => setOpen(!header.hasAttribute('data-open')));
   header.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => setOpen(false)));

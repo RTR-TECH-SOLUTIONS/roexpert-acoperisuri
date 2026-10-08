@@ -1,0 +1,8 @@
+---
+import Gallery from '../components/Gallery.astro';
+import { site } from '../data/site';
+import Page from '../layouts/Page.astro';
+---
+<Page inner title="Portofoliu" description={`Lucrări realizate de ${site.name}: acoperișuri, terase, garduri și finisaje.`}>
+  <Gallery grid />
+</Page>

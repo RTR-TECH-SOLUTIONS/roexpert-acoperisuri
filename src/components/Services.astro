@@ -1,6 +1,10 @@
 ---
-import { categories } from '../data/site';
+import { categories, u } from '../data/site';
 import Icon from './Icon.astro';
+// expanded: pe pagina de servicii toate listele sunt deschise, iar cardurile sar la lista lor.
+interface Props { expanded?: boolean }
+const { expanded = false } = Astro.props;
+const Card = expanded ? 'a' : 'button';
 ---
 <section id="servicii" class="section bg-bg">
   <div class="site-container">
@@ -11,7 +15,7 @@ import Icon from './Icon.astro';
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
       {categories.map((c) => (
-        <button type="button" data-cat={c.id} aria-expanded="false" aria-controls="servicii-panel" class="group relative flex h-full min-h-[17rem] flex-col items-start overflow-hidden rounded-2xl border border-border p-[clamp(1.500rem,2.500vw,2.250rem)] text-left transition-colors hover:border-accent/40 aria-expanded:border-accent">
+        <Card {...(expanded ? { href: `#${c.id}` } : { type: 'button', 'data-cat': c.id, 'aria-expanded': 'false', 'aria-controls': 'servicii-panel' })} class="group relative flex h-full min-h-[17rem] flex-col items-start overflow-hidden rounded-2xl border border-border p-[clamp(1.500rem,2.500vw,2.250rem)] text-left transition-colors hover:border-accent/40 aria-expanded:border-accent">
           <img src={c.image} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <span class="absolute inset-0 bg-black/65" aria-hidden="true"></span>
           <span class="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 text-accent-bright backdrop-blur-sm"><Icon name={c.icon} class="h-7 w-7" /></span>
@@ -20,18 +24,18 @@ import Icon from './Icon.astro';
           <span class="relative mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-accent-bright">
             Vezi serviciile <Icon name="chevron" class="h-4 w-4 transition-transform duration-200 group-aria-expanded:rotate-180" />
           </span>
-        </button>
+        </Card>
       ))}
     </div>
 
-    <div id="servicii-panel" hidden class="mt-6 rounded-2xl border border-border bg-surface p-[clamp(1.250rem,2.500vw,2rem)]">
+    <div id="servicii-panel" hidden={!expanded} class:list={['mt-6', expanded ? 'space-y-6' : 'rounded-2xl border border-border bg-surface p-[clamp(1.250rem,2.500vw,2rem)]']}>
       {categories.map((c) => (
-        <div data-panel={c.id} hidden>
+        <div id={expanded ? c.id : undefined} data-panel={c.id} hidden={!expanded} class:list={[expanded && 'scroll-mt-28 rounded-2xl border border-border bg-surface p-[clamp(1.250rem,2.500vw,2rem)]']}>
           <h3 class="font-heading text-xl font-semibold">{c.title}</h3>
           <ul class="mt-5 grid gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
             {c.services.map((s) => (
               <li>
-                <a href="#contact" data-pick={s} data-pick-cat={c.id} class="group/item flex items-center justify-between gap-3 border-b border-border py-3 text-[0.95rem] transition-colors hover:text-white">
+                <a href={u(`/contact/?cat=${c.id}&serviciu=${encodeURIComponent(s)}`)} class="group/item flex items-center justify-between gap-3 border-b border-border py-3 text-[0.95rem] transition-colors hover:text-white">
                   <span class="flex items-center gap-2.5"><span class="h-1.5 w-1.5 rounded-full bg-accent"></span>{s}</span>
                   <Icon name="arrow" class="h-4 w-4 text-muted transition-transform duration-200 group-hover/item:translate-x-1 group-hover/item:text-accent-bright" />
                 </a>
@@ -46,7 +50,7 @@ import Icon from './Icon.astro';
 
 <script>
   const panel = document.getElementById('servicii-panel')!;
-  const cards = document.querySelectorAll<HTMLButtonElement>('[data-cat]');
+  const cards = document.querySelectorAll<HTMLButtonElement>('button[data-cat]');
 
   cards.forEach((card) =>
     card.addEventListener('click', () => {

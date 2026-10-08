@@ -1,17 +1,24 @@
 ---
-import { gallery, site } from '../data/site';
+import { gallery, site, u } from '../data/site';
 import Icon from './Icon.astro';
+// grid: pe pagina de portofoliu se văd toate pozele; pe prima pagină rămâne banda care curge.
+interface Props { grid?: boolean }
+const { grid = false } = Astro.props;
+const copies = grid ? [0] : [0, 1];
 ---
 <section id="portofoliu" class="section bg-bg">
-  <div class="site-container reveal mb-10">
-    <p class="eyebrow">Portofoliu</p>
-    <h2 class="mt-3 font-heading font-semibold">Galeria noastră</h2>
+  <div class="site-container reveal mb-10 flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="eyebrow">Portofoliu</p>
+      <h2 class="mt-3 font-heading font-semibold">Galeria noastră</h2>
+    </div>
+    {!grid && <a href={u('/portofoliu/')} class="btn btn-outline h-11! px-4! text-sm">Vezi tot portofoliul <Icon name="arrow" class="h-4 w-4" /></a>}
   </div>
 
-  <div class="marquee" style={`--marquee-d: ${gallery.length * 5}s`}>
-    <ul class="marquee-track">
-      {[0, 1].map((copy) => gallery.map((img, i) => (
-        <li aria-hidden={copy === 1 ? 'true' : undefined} class="mr-4 w-[min(72vw,318px)] shrink-0 overflow-hidden rounded-xl border border-border">
+  <div class:list={[grid ? 'site-container' : 'marquee']} style={grid ? undefined : `--marquee-d: ${gallery.length * 5}s`}>
+    <ul class:list={[grid ? 'grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4' : 'marquee-track']}>
+      {copies.map((copy) => gallery.map((img, i) => (
+        <li aria-hidden={copy === 1 ? 'true' : undefined} class:list={['overflow-hidden rounded-xl border border-border', !grid && 'mr-4 w-[min(72vw,318px)] shrink-0']}>
           <button type="button" data-zoom={i} tabindex={copy === 1 ? -1 : 0} aria-label={`Mărește imaginea: ${img.label}`} class="group relative block aspect-[4/3] w-full focus-visible:outline-offset-[-2px]">
             <img src={img.src} alt={`${img.label}, lucrare ${site.name}`} loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
             <span aria-hidden="true" class="absolute inset-0 bg-linear-to-t from-black/75 via-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"></span>

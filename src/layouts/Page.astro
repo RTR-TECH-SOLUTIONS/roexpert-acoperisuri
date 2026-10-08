@@ -1,0 +1,18 @@
+---
+import FloatingActions from '../components/FloatingActions.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { site } from '../data/site';
+import Layout from './Layout.astro';
+// inner: paginile fără hero au header plin și conținutul împins sub el.
+interface Props { title: string; description: string; inner?: boolean }
+const { title, description, inner = false } = Astro.props;
+---
+<Layout title={`${title} | ${site.name}`} description={description}>
+  <Header solid={inner} />
+  <main class:list={['flex-1', inner && 'pt-(--header-h) [--section-y:clamp(2.5rem,6vw,4.5rem)]']}>
+    <slot />
+  </main>
+  <Footer />
+  <FloatingActions />
+</Layout>

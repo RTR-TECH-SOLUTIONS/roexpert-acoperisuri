@@ -1,0 +1,8 @@
+---
+import Contact from '../components/Contact.astro';
+import { site } from '../data/site';
+import Page from '../layouts/Page.astro';
+---
+<Page inner title="Contact" description={`Cere o ofertă de la ${site.name}: telefon ${site.phone} sau formular.`}>
+  <Contact />
+</Page>

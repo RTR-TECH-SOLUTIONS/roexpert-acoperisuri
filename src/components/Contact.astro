@@ -1,5 +1,5 @@
 ---
-import { categories, site } from '../data/site';
+import { categories, site, u } from '../data/site';
 import Icon from './Icon.astro';
 const points = ['Ofertă completă, cu toate detaliile', 'Transparență totală — știi exact ce plătești', 'Nicio presiune, nicio obligație'];
 ---
@@ -63,7 +63,7 @@ const points = ['Ofertă completă, cu toate detaliile', 'Transparență totală
 
       <div class="mt-6 flex flex-wrap items-center gap-3">
         <button type="submit" class="btn btn-primary text-sm tracking-wide uppercase"><Icon name="send" class="h-4 w-4" /> Solicită ofertă</button>
-        <a href="#servicii" class="btn btn-outline h-11! px-4! text-sm"><Icon name="arrow" class="h-4 w-4 rotate-180" /> Vezi serviciile</a>
+        <a href={u('/servicii/')} class="btn btn-outline h-11! px-4! text-sm"><Icon name="arrow" class="h-4 w-4 rotate-180" /> Vezi serviciile</a>
       </div>
       <p data-form-ok role="status" hidden class="mt-4 text-sm text-muted">Cererea s-a deschis în WhatsApp. Dacă nu s-a deschis, sună-ne la <a href={`tel:${site.phoneHref}`} class="text-text underline">{site.phone}</a>.</p>
     </form>
@@ -89,6 +89,13 @@ const points = ['Ofertă completă, cu toate detaliile', 'Transparență totală
   };
   wireRow(rows.firstElementChild);
 
+  // Venit din lista de servicii (/contact/?cat=...&serviciu=...): preselectează serviciul.
+  const params = new URLSearchParams(location.search);
+  if (categories.some((c) => c.id === params.get('cat'))) {
+    rows.firstElementChild.querySelector('[data-cat-select]').value = params.get('cat');
+    fillServices(rows.firstElementChild, params.get('serviciu'));
+  }
+
   form.querySelector('[data-add-row]').addEventListener('click', () => {
     const row = template.cloneNode(true);
     row.querySelector('[data-remove-row]').hidden = false;
@@ -96,14 +103,6 @@ const points = ['Ofertă completă, cu toate detaliile', 'Transparență totală
     wireRow(row);
   });
 
-  // Click pe un serviciu din lista de servicii: îl preselectează în formular.
-  document.querySelectorAll('[data-pick]').forEach((link) =>
-    link.addEventListener('click', () => {
-      const row = rows.firstElementChild;
-      row.querySelector('[data-cat-select]').value = link.dataset.pickCat;
-      fillServices(row, link.dataset.pick);
-    }),
-  );
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();

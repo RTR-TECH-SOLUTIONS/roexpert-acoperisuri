@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, u } from '../data/site';
 import Icon from './Icon.astro';
 ---
 <div class="fixed right-5 bottom-[72px] z-40 flex flex-col gap-3 sm:right-6 sm:bottom-6">
@@ -13,5 +13,5 @@ import Icon from './Icon.astro';
 
 <div class="fixed inset-x-0 bottom-0 z-40 flex h-14 border-t border-border bg-bg sm:hidden">
   <a href={`tel:${site.phoneHref}`} class="flex flex-1 items-center justify-center gap-2 text-sm font-semibold"><Icon name="phone" class="h-4 w-4" /> Sună Acum</a>
-  <a href="#contact" class="flex flex-1 items-center justify-center gap-2 bg-accent text-sm font-semibold text-white"><Icon name="send" class="h-4 w-4" /> Cere Ofertă</a>
+  <a href={u('/contact/')} class="flex flex-1 items-center justify-center gap-2 bg-accent text-sm font-semibold text-white"><Icon name="send" class="h-4 w-4" /> Cere Ofertă</a>
 </div>
