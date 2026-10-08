@@ -2,11 +2,13 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-// Demo găzduit pe GitHub Pages, într-un subdirector.
-// TODO(real): pe domeniul clientului se pune domeniul în `site` și se șterge `base`.
+// Site-ul live stă pe ro-expert.ro, la rădăcină (acum pe GitHub Pages cu domeniu propriu).
+// DEMO_BASE rămâne doar pentru un eventual build într-un subdirector.
+const demoBase = process.env.DEMO_BASE;
+
 export default defineConfig({
-  site: 'https://rtr-tech-solutions.github.io',
-  base: '/roexpert-acoperisuri',
   devToolbar: { enabled: false },
+  site: demoBase ? 'https://rtr-tech-solutions.github.io' : 'https://ro-expert.ro',
+  base: demoBase ?? '/',
   vite: { plugins: [tailwindcss()] },
 });
